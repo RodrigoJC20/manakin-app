@@ -2,6 +2,7 @@ from rembg import remove
 from PIL import Image
 import cv2
 from typing import List
+from typing import Dict
 from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import FileResponse
 import requests
@@ -41,28 +42,22 @@ async def create_upload_file(files: List[UploadFile] = File(...)):
 
 
 @app.post("/generate_image")
-async def generate_image(files: List[UploadFile] = File(...)):
+async def generate_image(data: Dict):
+	first_prompt = "a wide angle street level photo of a busy street in Versova, Mumbai, 4k, 8k, UHD"
+	second_prompt = "a wide angle street level photo of a busy street in Versova, Mumbai, 4k, 8k, UHD"
+	prompts = data.get("prompts", [first_prompt, second_prompt])
 	payload = {
-	    "animation_prompts": [
-	        {
-	            "frame": 0,
-	            "prompt": "a wide angle street level photo of a busy street in Versova, Mumbai, 4k, 8k, UHD",
-	        },
-	        {
-	            "frame": 10,
-	            "prompt": "a wide angle photo of the interiors of a bombay pub in the evening, neon lighting signs, cafe lighting, 4k, 8k, uhd",
-	        },
-	    ]
+		"animation_prompts": [
+			{"frame": 0, "prompt": prompts[0],},
+			{"frame": 10, "prompt": prompts[1]},
+		]
 	}
 
 	response = requests.post(
 		"https://api.gooey.ai/v2/DeforumSD/",
 		headers={
-	        "Authorization": f"Bearer {GOOEY_API_KEY}",
-	    },
-	    json=payload,
+			"Authorization": f"Bearer {GOOEY_API_KEY}"
+		},
+		json=payload,
 	)
-	assert response.ok, response.content
-
-	result = response.json()
-	print(response.status_code, result)
+	return response.json()['output']['output_video']
