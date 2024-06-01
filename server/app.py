@@ -30,12 +30,11 @@ def create_file():
     foreground.save(fg_name)
     background.save(bg_name)
 
-    bg_fg_name = fg_name + "_no_bg.png"
-    if not os.path.exists(bg_fg_name):
+    fg_no_bg_name = fg_name + "_no_bg.png"
+    if not os.path.exists(fg_no_bg_name):
         rmbg.remove_background_from_img_file(fg_name)
-    fg_name = fg_name + "_no_bg.png"
 
-    fg = cv2.imread(fg_name)  # foreground
+    fg = cv2.imread(fg_no_bg_name)  # foreground
     bg = cv2.imread(bg_name)  # background
 
     row_length = bg.shape[0] // 2
@@ -54,13 +53,16 @@ def create_file():
                 stretch_near != 0) * stretch_near
     cv2.imwrite(fg_name, fg)
     cv2.imwrite("static/" + bg_name, bg)
+    os.remove(fg_name)
+    os.remove(bg_name)
+    os.remove(fg_no_bg_name)
     return render_template("picture.html", filename=bg_name)  # FileResponse(bg_name)
 
 
 @app.route("/generate_image", methods=["POST"])
-def generate_image(data):
+def generate_image():
     generic_prompt = "a wide angle street level photo of a busy street in New York, Mumbai, 4k, 8k, UHD"
-    prompt = data.get('prompt', generic_prompt)
+    prompt = request.form.get('prompt', generic_prompt)
 
     # payload = {
     # 	"animation_prompts": [
@@ -85,7 +87,8 @@ def generate_image(data):
                         "%20busy%20street%20in%20Shibuya%20Tokyo%204k%208k%20UHD.mp4")
 
     download_path = "downloaded_video.mp4"
-    output_path = "final_video.mp4"
+    output_path = "static/final_video.mp4"
+    filename = "final_video.mp4"
     overlay_image_path = "dp.jpeg_no_bg.png"
 
     def download_video(url, file_path):
@@ -145,6 +148,5 @@ def generate_image(data):
 
     add_image(download_path)
 
-    print(f"Processed video saved as {output_path}")
-
-    return output_path
+    print(f"Processed video saved as {output_path}, filename: {filename}")
+    return render_template("video.html", filename=filename)
