@@ -1,5 +1,3 @@
-from rembg import remove
-from PIL import Image
 import cv2
 from typing import List
 from typing import Dict
