@@ -66,6 +66,55 @@ export default function Home() {
         }}
       />
 
+      <img
+        className="changing-hue"
+        src="/img/heyyou.png"
+        style={{
+          height: 'auto',
+          width: '30vh',
+          position: 'absolute',
+          left: 'auto',
+          right: 'auto',
+          top: '50px',
+        }}
+      />
+
+      <img
+        className="rotating-changing-hue"
+        src="/img/wiz.png"
+        style={{
+          height: 'auto',
+          width: '25vh',
+          position: 'absolute',
+          left: '70px',
+          bottom: '-300px',
+        }}
+      />
+
+      <img
+        className="rotating-changing-hue"
+        src="/img/wiz.png"
+        style={{
+          height: 'auto',
+          width: '25vh',
+          position: 'absolute',
+          left: '90px',
+          bottom: '-800px',
+        }}
+      />
+
+      <img
+        className="rotating-changing-hue"
+        src="/img/wiz.png"
+        style={{
+          height: 'auto',
+          width: '25vh',
+          position: 'absolute',
+          right: '90px',
+          bottom: '-500px',
+        }}
+      />
+
       {/* <h1 className="text-4xl font-bold">Welcome to Manakin</h1> */}
       <div className="flex flex-col items-center">
         <button className="absolute left-0 top-12 button text-black text-6xl">
