@@ -1,45 +1,54 @@
 import cv2
 from typing import List, Annotated
 from typing import Dict
+from fastapi import FastAPI, File, UploadFile, Form
+from fastapi.responses import FileResponse
 import requests
+from server_old.server_secrets import REMOVEBG_API_KEY
+from server_old.server_secrets import GOOEY_API_KEY
 import os
 from removebg import RemoveBg
-from flask import Flask, request, render_template
-from werkzeug.exceptions import HTTPException
-from dotenv import load_dotenv
+from fastapi.middleware.cors import CORSMiddleware
+import uvicorn
+app = FastAPI()
 
-load_dotenv()
+origins = [
+    "http://localhost.tiangolo.com",
+    "https://localhost.tiangolo.com",
+    "http://localhost",
+    "http://localhost:8080",
+	"http://localhost:3000",
+]
 
-REMOVEBG_API_KEY = os.getenv("REMOVEBG_API_KEY")
-GOOEY_API_KEY = os.getenv("GOOEY_API_KEY")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
-app = Flask(__name__)
 
 rmbg = RemoveBg(REMOVEBG_API_KEY, "error.log")
 
 
-@app.route("/")
-def root():
-	return render_template('home.html')
+@app.get("/")
+async def root():
+	return {"Hello": "World"}
 
 
-@app.route("/create_file", methods=["POST"])
-def create_upload_file():
-	# fg_name = foreground.filename
-	# bg_name = background.filename
-	# contents = foreground.file.read()
-	# with open(foreground.filename, "wb") as f:
-	# 	f.write(contents)
-	# contents = background.file.read()
-	# with open(background.filename, "wb") as f:
-	# 	f.write(contents)
-	if not request.files:
-		return HTTPException()
-	foreground = request.files[0]
-	background = request.files[1]
+@app.post("/create_file")
+async def create_upload_file(foreground: Annotated[UploadFile, Form()], background: Annotated[UploadFile, Form()]):
 	fg_name = foreground.filename
 	bg_name = background.filename
+	contents = foreground.file.read()
+	with open(foreground.filename, "wb") as f:
+		f.write(contents)
+	contents = background.file.read()
+	with open(background.filename, "wb") as f:
+		f.write(contents)
 	bg_fg_name = fg_name + "_no_bg.png"
 	if not os.path.exists(bg_fg_name):
 		rmbg.remove_background_from_img_file(fg_name)
@@ -63,11 +72,11 @@ def create_upload_file():
 	bg[left:left + stretch_near.shape[0], up:up + stretch_near.shape[1]] = (stretch_near == 0) * original_bg + (stretch_near != 0) * stretch_near
 	cv2.imwrite(fg_name, fg)
 	cv2.imwrite(bg_name, bg)
-	return render_template() # FileResponse(bg_name)
+	return FileResponse(bg_name)
 
 
-@app.route("/generate_image", methods=["POST"])
-def generate_image(data: Dict):
+@app.post("/generate_image")
+async def generate_image(data: Dict):
 	first_prompt = "a wide angle street level photo of a busy street in New York, Mumbai, 4k, 8k, UHD"
 	second_prompt = "a wide angle of a busy street in Manhattan, Mumbai, 4k, 8k, UHD"
 	prompts = data.get("prompts", [first_prompt, second_prompt])
@@ -95,3 +104,7 @@ def generate_image(data: Dict):
 					"%20busy%20street%20in%20Shibuya%20Tokyo%204k%208k%20UHD.mp4")
 
 	return output_video
+
+
+if __name__ == "__main__":
+	uvicorn.run(app, host='0.0.0.0', port=8000)

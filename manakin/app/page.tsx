@@ -1,6 +1,93 @@
+"use_client"
+
 import Image from 'next/image'
 
 export default function Home() {
+
+    let stream;
+    const startWebcam = () => {
+        navigator.mediaDevices.getUserMedia({ video: true })
+        .then((mediaStream) => {
+            stream = mediaStream;
+            video.srcObject = stream;
+            video.play();
+        })
+        .catch((err) => {
+            console.error('Error accessing the webcam: ' + err);
+        });
+    }
+    const stopWebcam = () => {
+        if (stream) {
+            stream.getTracks().forEach(track => track.stop());
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+            // Get modal elements
+            const modal = document.getElementById("myModal");
+            const openModalButton = document.getElementById("openModalButton");
+            const closeModalSpan = document.getElementsByClassName("close")[0];
+
+            // Open the modal
+            openModalButton.onclick = function() {
+                modal.style.display = "block";
+                startWebcam();
+            }
+
+            // Close the modal
+            closeModalSpan.onclick = function() {
+                modal.style.display = "none";
+                stopWebcam();
+            }
+
+            // Close the modal if the user clicks outside of the modal content
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                    stopWebcam();
+                }
+            }
+
+            // Access the video element
+            const video = document.getElementById('video');
+            let stream;
+
+            // Get access to the webcam
+            function startWebcam() {
+
+            }
+
+            // Stop the webcam
+            function stopWebcam() {
+                if (stream) {
+                    stream.getTracks().forEach(track => track.stop());
+                }
+            }
+
+            // Capture the image when the button is clicked
+            const captureButton = document.getElementById('captureButton');
+            captureButton.addEventListener('click', () => {
+                // Access the canvas element
+                const canvas = document.getElementById('canvas');
+                const context = canvas.getContext('2d');
+
+                // Draw the current frame from the video onto the canvas
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                // Get the data URL of the captured image
+                const dataUrl = canvas.toDataURL('image/png');
+
+                // Display the captured image
+                const capturedImage = document.getElementById('capturedImage');
+                capturedImage.src = dataUrl;
+                capturedImage.style.display = 'block';
+
+                // Close the modal
+                modal.style.display = "none";
+                stopWebcam();
+            });
+        });
+
   return (
     <main
       className="flex flex-col items-center justify-between p-24"
@@ -156,6 +243,7 @@ export default function Home() {
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
+          onClick={startWebcam}
         ></button>
       </div>
       <div className="flex flex-col items-center"></div>
