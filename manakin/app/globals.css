@@ -79,6 +79,11 @@ body {
   }
 }
 
+.expando {
+  transform: scale(1);
+}
+
 .expando:hover {
   transform: scale(1.5); /* Scale the button to 110% */
+  transition: ease-in-out ;
 }
