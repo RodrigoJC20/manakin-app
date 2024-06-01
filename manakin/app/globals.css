@@ -76,5 +76,5 @@ body {
 }
 
 .expando:hover {
-  transform: scale(1.1); /* Scale the button to 110% */
+  transform: scale(1.5); /* Scale the button to 110% */
 }

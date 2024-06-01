@@ -28,6 +28,19 @@ export default function Home() {
       </h2>
 
       <img
+        className="expando"
+        src="/img/smwhere.png"
+        style={{
+          height: '100vh',
+          width: '140vh',
+          position: 'absolute',
+          left: 'auto',
+          right: 'auto',
+          bottom: '-300px',
+        }}
+      ></img>
+
+      <img
         className="rotating"
         src="/img/wortal.png"
         style={{
@@ -37,8 +50,8 @@ export default function Home() {
           left: '150px',
           bottom: '-900px',
         }}
-        alt="Rotating"
       />
+
       <img
         className="rotating changing-hue"
         src="/img/wortal.png"
@@ -49,7 +62,6 @@ export default function Home() {
           left: '150px',
           bottom: '-900px',
         }}
-        alt="Rotating"
       />
 
       {/* <h1 className="text-4xl font-bold">Welcome to Manakin</h1> */}
