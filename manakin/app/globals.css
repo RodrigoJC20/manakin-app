@@ -81,9 +81,10 @@ body {
 
 .expando {
   transform: scale(1);
+  transition: 0.5s ease-in-out ;
 }
 
 .expando:hover {
   transform: scale(1.5); /* Scale the button to 110% */
-  transition: ease-in-out ;
+  transition: 0.5s ease-in-out ;
 }
