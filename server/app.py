@@ -4,6 +4,7 @@ from flask import Flask, request, render_template
 from dotenv import load_dotenv
 from removebg import RemoveBg
 import numpy as np
+import requests
 
 load_dotenv()
 
@@ -57,7 +58,7 @@ def create_file():
 
 
 @app.route("/generate_image", methods=["POST"])
-def generate_image(data: Dict):
+def generate_image(data):
     generic_prompt = "a wide angle street level photo of a busy street in New York, Mumbai, 4k, 8k, UHD"
     prompt = data.get('prompt', generic_prompt)
 

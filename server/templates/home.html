@@ -124,6 +124,11 @@
             <input type=file name=background>
             <input type=submit value=Upload>
         </form>
+
+        <form method=post enctype=multipart/form-data action="{{ url_for('generate_image') }}">
+            <input name=prompt>
+            <input type=submit value=Upload>
+        </form>
     </main>
 </body>
 </html>
