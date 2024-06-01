@@ -1,16 +1,34 @@
 import cv2
-from typing import List
+from typing import List, Annotated
 from typing import Dict
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile, Form
 from fastapi.responses import FileResponse
 import requests
 from server.server_secrets import REMOVEBG_API_KEY
 from server.server_secrets import GOOEY_API_KEY
 import os
-import numpy as np
+from removebg import RemoveBg
+from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
-from removebg import RemoveBg
+origins = [
+    "http://localhost.tiangolo.com",
+    "https://localhost.tiangolo.com",
+    "http://localhost",
+    "http://localhost:8080",
+	"http://localhost:3000",
+]
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 
 rmbg = RemoveBg(REMOVEBG_API_KEY, "error.log")
 
@@ -21,7 +39,7 @@ async def root():
 
 
 @app.post("/create_file")
-async def create_upload_file(foreground: UploadFile, background: UploadFile):
+async def create_upload_file(foreground: Annotated[UploadFile, Form()], background: Annotated[UploadFile, Form()]):
 	fg_name = foreground.filename
 	bg_name = background.filename
 	contents = foreground.file.read()
