@@ -127,6 +127,7 @@
 
         <form method=post enctype=multipart/form-data action="{{ url_for('generate_image') }}">
             <input name=prompt>
+            <input type=file name=overlay_image>
             <input type=submit value=Upload>
         </form>
     </main>

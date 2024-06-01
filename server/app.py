@@ -63,14 +63,17 @@ def create_file():
 def generate_image():
     generic_prompt = "a wide angle street level photo of a busy street in New York, Mumbai, 4k, 8k, UHD"
     prompt = request.form.get('prompt', generic_prompt)
+    overlay_image_path = "dp.jpeg_no_bg.png"
+    overlay_image = request.files.get('overlay_image')
+    overlay_image.save(overlay_image_path)
 
-    # payload = {
-    # 	"animation_prompts": [
-    # 		{"frame": 0, "prompt": prompt[0]},
-    # 		{"frame": 10, "prompt": prompt[0]},
-    # 	]
-    # }
-    #
+    payload = {
+    	"animation_prompts": [
+    		{"frame": 0, "prompt": prompt},
+    		{"frame": 10, "prompt": prompt},
+    	]
+    }
+
     # response = requests.post(
     # 	"https://api.gooey.ai/v2/DeforumSD/",
     # 	headers={
@@ -79,9 +82,7 @@ def generate_image():
     # 	json=payload,
     # )
 
-    print(prompt[0])
-
-    # output_video = response.json()['output']['output_video']
+    # output_video_url = response.json()['output']['output_video']
     output_video_url = ("https://storage.googleapis.com/dara-c1b52.appspot.com/daras_ai/media/41b4fbce-2042-11ef-9ff3"
                         "-02420a00016d/gooey.ai%20animation%20frame%200%20prompt%20a%20wide%20angle%20s...ngle%20of%20a"
                         "%20busy%20street%20in%20Shibuya%20Tokyo%204k%208k%20UHD.mp4")
@@ -111,7 +112,7 @@ def generate_image():
         overlay_x = (width - overlay_image.shape[1]) // 2
         overlay_y = (height - overlay_image.shape[0]) // 2
 
-        out = cv2.VideoWriter(output_path, cv2.VideoWriter_fourcc(*'mp4v'), fps, (width, height))
+        out = cv2.VideoWriter(output_path, cv2.VideoWriter_fourcc(*'avc1'), fps, (width, height))
 
         while True:
             ret, frame = video.read()
@@ -140,7 +141,6 @@ def generate_image():
             frame[overlay_y:overlay_y + overlay_image_translated.shape[0],
             overlay_x:overlay_x + overlay_image_translated.shape[1]] = cv2.addWeighted(roi, alpha, roi_final, 1 - alpha,
                                                                                        0)
-
             out.write(frame)
 
         out.release()
