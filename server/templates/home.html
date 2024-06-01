@@ -119,6 +119,11 @@
             <button class="main-button" style="height: 340px; width: 840px; left: 100px; bottom: -1580px; background-image: url('/static/button1.png'); background-size: cover; background-position: center;"></button>
             <button class="main-button" style="height: 330px; width: 870px; left: 450px; bottom: -1880px; background-image: url('/static/button2.png'); background-size: cover; background-position: center;"></button>
         </div>
+        <form method=post enctype=multipart/form-data action="{{ url_for('create_file') }}">
+            <input type=file name=foreground>
+            <input type=file name=background>
+            <input type=submit value=Upload>
+        </form>
     </main>
 </body>
 </html>
