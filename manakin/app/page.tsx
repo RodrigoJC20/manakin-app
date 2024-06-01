@@ -6,7 +6,7 @@ export default function Home() {
       className="flex flex-col items-center justify-between p-24"
       style={{
         minHeight: '350vh', // 3 times the screen height
-        backgroundImage: 'url(img/bg2.png)',
+        backgroundImage: 'url(img/finalbg.png)',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}
@@ -14,7 +14,7 @@ export default function Home() {
       <h2
         className="changing-hue"
         style={{
-          color: 'neon-yellow',
+          color: 'yellow',
           fontSize: '90px',
           zIndex: 1000,
           lineHeight: '0.9',
@@ -36,39 +36,101 @@ export default function Home() {
           position: 'absolute',
           left: 'auto',
           right: 'auto',
-          bottom: '-300px',
+          bottom: '-250px',
         }}
       ></img>
 
       <img
-        className="rotating"
+        className="rotating-changing-hue"
         src="/img/wortal.png"
         style={{
           height: '100vh',
           width: '140vh',
           position: 'absolute',
-          left: '150px',
+          left: 'auto',
+          right: 'auto',
           bottom: '-900px',
         }}
       />
 
       <img
-        className="rotating changing-hue"
+        className="rotating-changing-hue"
         src="/img/wortal.png"
         style={{
           height: '100vh',
           width: '140vh',
           position: 'absolute',
-          left: '150px',
+          left: 'auto',
+          right: 'auto',
           bottom: '-900px',
+        }}
+      />
+
+      <img
+        className="changing-hue"
+        src="/img/heyyou.png"
+        style={{
+          height: 'auto',
+          width: '30vh',
+          position: 'absolute',
+          left: 'auto',
+          right: 'auto',
+          top: '50px',
+        }}
+      />
+
+      <img
+        className="rotating-changing-hue"
+        src="/img/wiz.png"
+        style={{
+          height: 'auto',
+          width: '25vh',
+          position: 'absolute',
+          left: '70px',
+          bottom: '-300px',
+        }}
+      />
+
+      <img
+        className="rotating-changing-hue"
+        src="/img/wiz.png"
+        style={{
+          height: 'auto',
+          width: '25vh',
+          position: 'absolute',
+          left: '90px',
+          bottom: '-800px',
+        }}
+      />
+
+      <img
+        className="rotating-changing-hue"
+        src="/img/wiz.png"
+        style={{
+          height: 'auto',
+          width: '25vh',
+          position: 'absolute',
+          right: '90px',
+          bottom: '-500px',
         }}
       />
 
       {/* <h1 className="text-4xl font-bold">Welcome to Manakin</h1> */}
       <div className="flex flex-col items-center">
-        <button className="absolute left-0 button text-black text-xl">
+        <button className="absolute rotating left-0 top-12 button text-black text-4xl px-[40px]">
           yes you
         </button>
+        <button className="absolute rotating right-0 top-1/4 button text-black text-4xl px-[40px]">
+          yes you
+        </button>
+        <button className="absolute rotating left-12 top-1/4 button text-black text-4xl px-[40px]">
+          yes you
+        </button>
+        <button className="absolute rotating right-12 top-12 button text-black text-4xl px-[40px]">
+          yes you
+        </button>
+      </div>
+      <div className="flex flex-col items-center">
         <button
           className="button text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
           style={{
