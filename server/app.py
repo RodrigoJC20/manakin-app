@@ -58,21 +58,30 @@ async def create_upload_file(foreground: UploadFile, background: UploadFile):
 
 @app.post("/generate_image")
 async def generate_image(data: Dict):
-	first_prompt = "a wide angle street level photo of a busy street in Versova, Mumbai, 4k, 8k, UHD"
-	second_prompt = "a wide angle street level photo of a busy street in Versova, Mumbai, 4k, 8k, UHD"
+	first_prompt = "a wide angle street level photo of a busy street in New York, Mumbai, 4k, 8k, UHD"
+	second_prompt = "a wide angle of a busy street in Manhattan, Mumbai, 4k, 8k, UHD"
 	prompts = data.get("prompts", [first_prompt, second_prompt])
-	payload = {
-		"animation_prompts": [
-			{"frame": 0, "prompt": prompts[0],},
-			{"frame": 10, "prompt": prompts[1]},
-		]
-	}
+	# payload = {
+	# 	"animation_prompts": [
+	# 		{"frame": 0, "prompt": prompts[0],},
+	# 		{"frame": 10, "prompt": prompts[1]},
+	# 	]
+	# }
+	#
+	# response = requests.post(
+	# 	"https://api.gooey.ai/v2/DeforumSD/",
+	# 	headers={
+	# 		"Authorization": f"Bearer {GOOEY_API_KEY}"
+	# 	},
+	# 	json=payload,
+	# )
 
-	response = requests.post(
-		"https://api.gooey.ai/v2/DeforumSD/",
-		headers={
-			"Authorization": f"Bearer {GOOEY_API_KEY}"
-		},
-		json=payload,
-	)
-	return response.json()['output']['output_video']
+	print(prompts[0])
+	print(prompts[1])
+
+	# output_video = response.json()['output']['output_video']
+	output_video = ("https://storage.googleapis.com/dara-c1b52.appspot.com/daras_ai/media/41b4fbce-2042-11ef-9ff3"
+					"-02420a00016d/gooey.ai%20animation%20frame%200%20prompt%20a%20wide%20angle%20s...ngle%20of%20a"
+					"%20busy%20street%20in%20Shibuya%20Tokyo%204k%208k%20UHD.mp4")
+
+	return output_video
