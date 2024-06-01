@@ -74,9 +74,6 @@ async def generate_image(data: Dict):
     # 	json=payload,
     # )
 
-    print(prompts[0])
-    print(prompts[1])
-
     # output_video = response.json()['output']['output_video']
     output_video_url = ("https://storage.googleapis.com/dara-c1b52.appspot.com/daras_ai/media/41b4fbce-2042-11ef-9ff3"
                         "-02420a00016d/gooey.ai%20animation%20frame%200%20prompt%20a%20wide%20angle%20s...ngle%20of%20a"
@@ -115,12 +112,10 @@ async def generate_image(data: Dict):
 
             overlay = frame.copy()
 
-            # Create a mask for the overlay region
             mask = cv2.cvtColor(overlay_image, cv2.COLOR_BGR2GRAY)
             ret, mask = cv2.threshold(mask, 10, 255, cv2.THRESH_BINARY)
             inv_mask = cv2.bitwise_not(mask)
 
-            # Place the overlay image onto the frame
             roi = overlay[overlay_y:overlay_y + overlay_image.shape[0], overlay_x:overlay_x + overlay_image.shape[1]]
             overlay_image_resized = cv2.resize(overlay_image, (roi.shape[1], roi.shape[0]))
             overlay = cv2.bitwise_and(roi, roi, mask=inv_mask)
@@ -129,7 +124,7 @@ async def generate_image(data: Dict):
             overlay = overlay_image
 
             # Blend the overlay with the frame
-            alpha = 0.5
+            alpha = 0.01
             frame[overlay_y:overlay_y + overlay_image.shape[0],
             overlay_x:overlay_x + overlay_image.shape[1]] = cv2.addWeighted(roi, alpha, roi_final, 1 - alpha, 0)
 
@@ -142,4 +137,4 @@ async def generate_image(data: Dict):
 
     print(f"Processed video saved as {output_path}")
 
-    return output_video_url
+    return output_path
