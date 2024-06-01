@@ -30,7 +30,9 @@ async def create_upload_file(foreground: UploadFile, background: UploadFile):
 	contents = background.file.read()
 	with open(background.filename, "wb") as f:
 		f.write(contents)
-	rmbg.remove_background_from_img_file(fg_name)
+	bg_fg_name = fg_name + "_no_bg.png"
+	if not os.path.exists(bg_fg_name):
+		rmbg.remove_background_from_img_file(fg_name)
 	fg_name = fg_name + "_no_bg.png"
 
 	fg = cv2.imread(fg_name)  # foreground
