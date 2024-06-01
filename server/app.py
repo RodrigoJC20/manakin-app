@@ -10,6 +10,9 @@ from server_secrets import REMOVEBG_API_KEY
 from server_secrets import GOOEY_API_KEY
 app = FastAPI()
 
+from removebg import RemoveBg
+
+rmbg = RemoveBg(REMOVEBG_API_KEY, "error.log")
 
 @app.post("/create_file")
 async def create_upload_file(files: List[UploadFile] = File(...)):
@@ -22,9 +25,8 @@ async def create_upload_file(files: List[UploadFile] = File(...)):
 	contents = background.file.read()
 	with open(background.filename, "wb") as f:
 		f.write(contents)
-	fg = Image.open(fg_name)
-	fg = remove(fg)
-	fg.save(fg_name)
+	rmbg.remove_background_from_img_file(fg_name)
+	fg_name = fg_name + "_no_bg.png"
 	fg = cv2.imread(fg_name)
 	bg = cv2.imread(bg_name)
 	row_length = bg.shape[0] // 4
