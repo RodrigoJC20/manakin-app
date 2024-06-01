@@ -9,6 +9,7 @@ from server.server_secrets import GOOEY_API_KEY
 import os
 from removebg import RemoveBg
 from fastapi.middleware.cors import CORSMiddleware
+import uvicorn
 app = FastAPI()
 
 origins = [
@@ -103,3 +104,7 @@ async def generate_image(data: Dict):
 					"%20busy%20street%20in%20Shibuya%20Tokyo%204k%208k%20UHD.mp4")
 
 	return output_video
+
+
+if __name__ == "__main__":
+	uvicorn.run(app, host='0.0.0.0', port=8000)
