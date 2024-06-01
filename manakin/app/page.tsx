@@ -6,11 +6,48 @@ export default function Home() {
       className="flex flex-col items-center justify-between p-24"
       style={{
         minHeight: '350vh', // 3 times the screen height
-        backgroundImage: 'url(img/bg.png)',
+        backgroundImage: 'url(img/bg2.png)',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}
     >
+      <h2
+        style={{
+          color: 'white',
+          fontSize: '50px',
+          position: 'absolute',
+          left: '200px',
+          bottom: '-800px',
+        }}
+      >
+        the wortal
+      </h2>
+
+      <img
+        className="rotating"
+        src="/img/wortal.png"
+        style={{
+          height: '100vh',
+          width: '140vh',
+          position: 'absolute',
+          left: '150px',
+          bottom: '-900px',
+        }}
+        alt="Rotating"
+      />
+      <img
+        className="rotating-changing-hue"
+        src="/img/wortal.png"
+        style={{
+          height: '100vh',
+          width: '140vh',
+          position: 'absolute',
+          left: '150px',
+          bottom: '-900px',
+        }}
+        alt="Rotating"
+      />
+
       {/* <h1 className="text-4xl font-bold">Welcome to Manakin</h1> */}
       <div className="flex flex-col items-center">
         <button
