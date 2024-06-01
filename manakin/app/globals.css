@@ -40,3 +40,37 @@ body {
   transform: translateY(-40px);
   transform: rotate(30deg);
 }
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes changeHue {
+  from {
+    filter: hue-rotate(0deg);
+  }
+  to {
+    filter: hue-rotate(360deg);
+  }
+}
+
+.rotating-changing-hue {
+  animation: rotate 5s linear infinite, changeHue 5s linear infinite;
+}
+
+.rotating {
+  animation: rotate 5s linear infinite;
+}
+
+@layer base {
+  @font-face {
+    font-family: ComicNeue;
+    font-weight: 400;
+    src: url(./ComicNeue-Bold.woff2) format('woff2');
+  }
+}
