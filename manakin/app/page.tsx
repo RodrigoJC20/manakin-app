@@ -12,15 +12,19 @@ export default function Home() {
       }}
     >
       <h2
+        className="changing-hue"
         style={{
-          color: 'white',
-          fontSize: '50px',
+          color: 'neon-yellow',
+          fontSize: '90px',
+          zIndex: 1000,
+          lineHeight: '0.9',
+          textAlign: 'center',
           position: 'absolute',
-          left: '200px',
-          bottom: '-800px',
+          left: '600px',
+          bottom: '-570px',
         }}
       >
-        the wortal
+        the <br></br>wortal
       </h2>
 
       <img
@@ -36,7 +40,7 @@ export default function Home() {
         alt="Rotating"
       />
       <img
-        className="rotating-changing-hue"
+        className="rotating changing-hue"
         src="/img/wortal.png"
         style={{
           height: '100vh',
