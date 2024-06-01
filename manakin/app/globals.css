@@ -59,6 +59,10 @@ body {
   }
 }
 
+.rotating-changing-hue {
+  animation: rotate 5s linear infinite, changeHue 5s linear infinite;
+}
+
 .changing-hue {
   animation: changeHue 5s linear infinite;
 }
