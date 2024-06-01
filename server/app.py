@@ -1,5 +1,5 @@
 import cv2
-from typing import List, Annotated
+from typing import List
 from typing import Dict
 import requests
 import os
@@ -7,6 +7,7 @@ from removebg import RemoveBg
 from flask import Flask, request, render_template
 from werkzeug.exceptions import HTTPException
 from dotenv import load_dotenv
+from removebg import RemoveBg
 
 load_dotenv()
 
@@ -86,12 +87,70 @@ def generate_image(data: Dict):
 	# 	json=payload,
 	# )
 
-	print(prompts[0])
-	print(prompts[1])
-
 	# output_video = response.json()['output']['output_video']
-	output_video = ("https://storage.googleapis.com/dara-c1b52.appspot.com/daras_ai/media/41b4fbce-2042-11ef-9ff3"
-					"-02420a00016d/gooey.ai%20animation%20frame%200%20prompt%20a%20wide%20angle%20s...ngle%20of%20a"
-					"%20busy%20street%20in%20Shibuya%20Tokyo%204k%208k%20UHD.mp4")
 
-	return output_video
+
+	output_video_url = ("https://storage.googleapis.com/dara-c1b52.appspot.com/daras_ai/media/41b4fbce-2042-11ef-9ff3"
+	                    "-02420a00016d/gooey.ai%20animation%20frame%200%20prompt%20a%20wide%20angle%20s...ngle%20of%20a"
+	                    "%20busy%20street%20in%20Shibuya%20Tokyo%204k%208k%20UHD.mp4")
+	download_path = "downloaded_video.mp4"
+	output_path = "final_video.mp4"
+	overlay_image_path = "dp.jpeg_no_bg.png"
+
+
+	def download_video(url, file_path):
+		response = requests.get(url, stream=True)
+
+
+	with open(file_path, 'wb') as file:
+		for chunk in response.iter_content(chunk_size=8192):
+			file.write(chunk)
+	print(f"Video downloaded to {file_path}")
+
+	download_video(output_video_url, download_path)
+
+
+	def add_image(video_path):
+		video = cv2.VideoCapture(video_path)
+		overlay_image = cv2.imread(overlay_image_path)
+
+		width = int(video.get(cv2.CAP_PROP_FRAME_WIDTH))
+		height = int(video.get(cv2.CAP_PROP_FRAME_HEIGHT))
+		fps = int(video.get(cv2.CAP_PROP_FPS))
+
+		overlay_x = (width - overlay_image.shape[1]) // 2
+		overlay_y = (height - overlay_image.shape[0]) // 2
+
+		out = cv2.VideoWriter(output_path, cv2.VideoWriter_fourcc(*'mp4v'), fps, (width, height))
+
+		while True:
+			ret, frame = video.read()
+			if not ret:
+				break
+
+			overlay = frame.copy()
+
+			mask = cv2.cvtColor(overlay_image, cv2.COLOR_BGR2GRAY)
+			ret, mask = cv2.threshold(mask, 10, 255, cv2.THRESH_BINARY)
+			inv_mask = cv2.bitwise_not(mask)
+
+			roi = overlay[overlay_y:overlay_y + overlay_image.shape[0], overlay_x:overlay_x + overlay_image.shape[1]]
+			overlay_image_resized = cv2.resize(overlay_image, (roi.shape[1], roi.shape[0]))
+			overlay = cv2.bitwise_and(roi, roi, mask=inv_mask)
+			overlay_image_with_alpha = cv2.bitwise_and(overlay_image_resized, overlay_image_resized, mask=mask)
+			roi_final = cv2.add(overlay, overlay_image_with_alpha)
+			overlay = overlay_image
+
+			# Blend the overlay with the frame
+			alpha = 0.01
+			frame[overlay_y:overlay_y + overlay_image.shape[0],
+			overlay_x:overlay_x + overlay_image.shape[1]] = cv2.addWeighted(roi, alpha, roi_final, 1 - alpha, 0)
+
+			out.write(frame)
+		out.release()
+		video.release()
+		add_image(download_path)
+		print(f"Processed video saved as {output_path}")
+
+
+	return output_path
