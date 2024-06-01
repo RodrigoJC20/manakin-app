@@ -14,7 +14,7 @@ export default function Home() {
       <h2
         className="changing-hue"
         style={{
-          color: 'neon-yellow',
+          color: 'yellow',
           fontSize: '90px',
           zIndex: 1000,
           lineHeight: '0.9',
