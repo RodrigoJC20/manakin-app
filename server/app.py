@@ -5,6 +5,8 @@ from typing import List
 from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import FileResponse
 import requests
+from server_secrets import REMOVEBG_API_KEY
+from server_secrets import GOOEY_API_KEY
 app = FastAPI()
 
 
@@ -56,7 +58,7 @@ async def generate_image(files: List[UploadFile] = File(...)):
 	response = requests.post(
 		"https://api.gooey.ai/v2/DeforumSD/",
 		headers={
-	        "Authorization": "Bearer ",
+	        "Authorization": f"Bearer {GOOEY_API_KEY}",
 	    },
 	    json=payload,
 	)
