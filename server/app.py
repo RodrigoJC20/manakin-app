@@ -1,11 +1,6 @@
 import cv2
-from typing import List
-from typing import Dict
-import requests
 import os
-from removebg import RemoveBg
 from flask import Flask, request, render_template
-from werkzeug.exceptions import HTTPException
 from dotenv import load_dotenv
 from removebg import RemoveBg
 
