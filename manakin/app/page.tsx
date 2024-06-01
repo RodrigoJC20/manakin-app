@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image from "next/image";
 
 export default function Home() {
   return (
@@ -14,7 +14,10 @@ export default function Home() {
       {/* <h1 className="text-4xl font-bold">Welcome to Manakin</h1> */}
       <div className="flex flex-col items-center">
         <button
-          className="button"
+          className="absolute left-0 button text-black text-xl"
+        >yes you</button>
+        <button
+          className="button text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
           style={{
             height: '340px',
             width: '840px',
@@ -39,6 +42,8 @@ export default function Home() {
             backgroundPosition: 'center',
           }}
         ></button>
+      </div>
+      <div className="flex flex-col items-center">
       </div>
     </main>
   )
