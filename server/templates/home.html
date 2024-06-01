@@ -89,6 +89,7 @@
         }
     </style>
     <link rel= "stylesheet" type= "text/css" href= "/static/globals.css">
+    <link rel="stylesheet" href="https://use.typekit.net/mbh4kzj.css">
 </head>
 <body>
     <main>
@@ -120,8 +121,8 @@
             <h1 class="main-button" style="position: absolute; cursor: pointer; height: 330px; width: 870px; left: 450px; bottom: -250vh; background-image: url('/static/button2.png'); background-size: cover; background-position: center;"></h1>
         </div> -->
         <form method=post enctype=multipart/form-data action="{{ url_for('create_file') }}">
-            <input style="position: absolute; cursor: pointer; height: 340px; width: 840px; left: 100px; bottom: -200vh; background-image: url('/static/button1.png'); background-size: cover; background-position: center;" type=file name=foreground>
-            <input class="main-button" style="position: absolute; cursor: pointer; height: 330px; width: 870px; left: 450px; bottom: -250vh; background-image: url('/static/button2.png'); background-size: cover; background-position: center;" type=file name=background>
+            <input class="main-button dock" style="position: absolute; cursor: pointer; height: 340px; width: 840px; left: 100px; bottom: -200vh; background-image: url('/static/button1.png'); background-size: cover; background-position: center;" type=file name=foreground>
+            <input class="main-button dock" style="position: absolute; cursor: pointer; height: 330px; width: 870px; left: 450px; bottom: -250vh; background-image: url('/static/button2.png'); background-size: cover; background-position: center;" type=file name=background>
             <input type=submit value=Upload>
         </form>
 
